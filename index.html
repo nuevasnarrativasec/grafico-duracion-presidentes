@@ -23,12 +23,16 @@ body {
 }
 
 .duration-label {
-  font-size: 13px;
+  font-size: 1rem;
   font-weight: bold;
 }
 
+.date-label {
+  font-size: 0.9rem;
+}
+
 .type-label {
-  font-size: 11px;
+  font-size: 1rem;
   fill: #fff;
 }
 
@@ -92,7 +96,7 @@ const data = [
   },
   {
     presidente: "Francisco Sagasti",
-    duracion_dias: 290,
+    duracion_dias: 360,
     duracion_texto: "253 días",
     //tipo_salida: "Transición constitucional",
     color: "#909510",
@@ -122,7 +126,7 @@ const data = [
   },
   {
     presidente: "José Jeri",
-    duracion_dias: 280,
+    duracion_dias: 360,
     duracion_texto: "130 días",
     //tipo_salida: "Transición constitucional",
     color: "#F39C12",
@@ -148,7 +152,7 @@ const x = d3.scaleLinear()
   .domain([0, d3.max(data, d => d.duracion_dias)])
   .range([0, width]);
 
-// BARRAS
+// BARRAS (con animación)
 svg.selectAll("rect")
   .data(data)
   .enter()
@@ -156,9 +160,16 @@ svg.selectAll("rect")
   .attr("x", 0)
   .attr("y", (d, i) => i * barHeight + 25)
   .attr("height", 60)
-  .attr("width", d => x(d.duracion_dias))
+  .attr("width", 0) // empieza en 0
   .attr("fill", d => d.color)
-  .attr("rx", 2);
+  .attr("rx", 2)
+  .transition()
+  .duration(900)
+  .delay((d, i) => i * 120)
+  .ease(d3.easeCubicOut)
+  .attr("width", d => x(d.duracion_dias));
+
+
 
 // FOTOS
 svg.selectAll("image")
