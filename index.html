@@ -16,104 +16,125 @@ body {
   margin: 40px auto;
 }
 
-.tooltip {
-  position: absolute;
-  background: white;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s;
-  max-width: 250px;
+.name-label {
   font-size: 14px;
+  font-weight: bold;
+  fill: #333;
 }
 
-.bar-label {
-  font-size: 14px;
-  fill: #333;
+.duration-label {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.type-label {
+  font-size: 11px;
+  fill: #fff;
+}
+
+.chart-container h1{
+    font-weight: 800;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    max-width: 82%;
+    margin: 0 auto;
+}
+.chart-container h4{
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.3;
+    max-width: 82%;
+    margin: 10px auto;
 }
 
 </style>
 </head>
 <body>
 
-<div class="chart-container"></div>
-<div class="tooltip"></div>
+    
+<div class="chart-container">
+    <h1>Duración de mandatos de los últimos presidentes de Perú</h1>
+    <h4>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen.</h4>
+</div>
 
 <script>
 
-// 🔹 DATA (luego puedes cargarla desde JSON externo)
 const data = [
   {
     presidente: "Pedro Pablo Kuczynski",
     duracion_dias: 601,
     duracion_texto: "1 año y 236 días",
-    tipo_salida: "Motivo de salida: Renuncia",
+    tipo_salida: "Renuncia",
     color: "#29a4b6",
     foto_url: "https://lh3.googleusercontent.com/d/1vADpH6wGfnk2yEe3aOPnvE1KQtN8--Ow",
-    descripcion: "Renunció tras segundo proceso de vacancia."
+    inicio: "28/07/2016",
+    fin: "21/03/2018"
   },
   {
     presidente: "Martín Vizcarra",
     duracion_dias: 962,
     duracion_texto: "2 años, 7 meses y 17 días",
-    tipo_salida: "Vacancia",
+    //tipo_salida: "Vacancia",
     color: "#10957a",
     foto_url: "https://lh3.googleusercontent.com/d/1KpndVQoF6iqVFQgRavLqcumebMGx2Ey0",
-    descripcion: "Destituido por incapacidad moral permanente."
+    inicio: "23/03/2018",
+    fin: "09/11/2020"
   },
   {
     presidente: "Manuel Merino",
     duracion_dias: 5,
     duracion_texto: "5 días",
-    tipo_salida: "Renuncia",
+    //tipo_salida: "Renuncia",
     color: "#103995",
     foto_url: "https://lh3.googleusercontent.com/d/1CrpRuldJT6ccWJAVCvvCienDXn50ZEWf",
-    descripcion: "Renunció tras protestas nacionales."
+    inicio: "10/11/2020",
+    fin: "15/11/2020"
   },
   {
     presidente: "Francisco Sagasti",
-    duracion_dias: 253,
+    duracion_dias: 290,
     duracion_texto: "253 días",
-    tipo_salida: "Transición constitucional",
+    //tipo_salida: "Transición constitucional",
     color: "#909510",
     foto_url: "https://lh3.googleusercontent.com/d/1N35sg70bvuKbF4_BPboP8FN_GdZWKlEm",
-    descripcion: "Renunció tras protestas nacionales."
+    inicio: "17/11/2020",
+    fin: "28/07/2021"
   },
   {
     presidente: "Pedro Castillo",
     duracion_dias: 497,
     duracion_texto: "497 días",
-    tipo_salida: "Intento de autogolpe",
+    //tipo_salida: "Intento de autogolpe",
     color: "#ad641d",
     foto_url: "https://lh3.googleusercontent.com/d/1y4ECevAhezhKCqCvl3auOCtADATj4K7B",
-    descripcion: "Intentó disolver el Congreso y fue vacado."
+    inicio: "28/07/2021",
+    fin: "07/12/2022"
   },
   {
     presidente: "Dina Boluarte",
     duracion_dias: 1038,
     duracion_texto: "1038 días",
-    tipo_salida: "Fin de mandato",
+    //tipo_salida: "Fin de mandato",
     color: "#72ad1d",
     foto_url: "https://lh3.googleusercontent.com/d/1UCbn-25bGjZvndHIzJIRQNxqwib7oNLd",
-    descripcion: "Asumió tras vacancia de Castillo."
+    inicio: "07/12/2022",
+    fin: "10/10/2025"
   },
   {
     presidente: "José Jeri",
-    duracion_dias: 130,
+    duracion_dias: 280,
     duracion_texto: "130 días",
-    tipo_salida: "Transición constitucional",
+    //tipo_salida: "Transición constitucional",
     color: "#F39C12",
     foto_url: "https://lh3.googleusercontent.com/d/1k5fdNurrV-5JBNkyNT8pZ2kzt51JoSUf",
-    descripcion: "Gobierno interino."
+    inicio: "10/10/2025",
+    fin: "17/02/2026"
   }
 ];
 
-// 🔹 CONFIGURACIÓN
-const margin = {top: 20, right: 40, bottom: 20, left: 120};
+const margin = {top: 20, right: 40, bottom: 20, left: 150};
 const width = 800 - margin.left - margin.right;
-const barHeight = 70;
+const barHeight = 95;
 const height = barHeight * data.length;
 
 const svg = d3.select(".chart-container")
@@ -127,65 +148,79 @@ const x = d3.scaleLinear()
   .domain([0, d3.max(data, d => d.duracion_dias)])
   .range([0, width]);
 
-const tooltip = d3.select(".tooltip");
-
-// 🔹 BARRAS
+// BARRAS
 svg.selectAll("rect")
   .data(data)
   .enter()
   .append("rect")
   .attr("x", 0)
-  .attr("y", (d, i) => i * barHeight + 15)
-  .attr("height", 30)
-  .attr("width", 0)
+  .attr("y", (d, i) => i * barHeight + 25)
+  .attr("height", 60)
+  .attr("width", d => x(d.duracion_dias))
   .attr("fill", d => d.color)
-  .style("cursor", "pointer")
-  .transition()
-  .duration(800)
-  .attr("width", d => x(d.duracion_dias));
+  .attr("rx", 2);
 
-// 🔹 FOTOS
+// FOTOS
 svg.selectAll("image")
   .data(data)
   .enter()
   .append("image")
-  .attr("xlink:href", d => d.foto_url)
-  .attr("x", -100)
-  .attr("y", (d, i) => i * barHeight)
-  .attr("width", 50)
-  .attr("height", 50)
-  .attr("clip-path", "circle(25px at 25px 25px)");
+  .attr("href", d => d.foto_url)
+  .attr("x", -80)
+  .attr("y", (d, i) => i * barHeight + 20)
+  .attr("width", 55)
+  .attr("height", 55)
+  .attr("clip-path", "circle(27px at 27px 27px)");
 
-// 🔹 NOMBRES
-svg.selectAll(".bar-label")
+// NOMBRE (afuera de la barra)
+svg.selectAll(".name-label")
   .data(data)
   .enter()
   .append("text")
-  .attr("class", "bar-label")
-  .attr("x", 10)
-  .attr("y", (d, i) => i * barHeight + 35)
+  .attr("class", "name-label")
+  .attr("x", 0)
+  .attr("y", (d, i) => i * barHeight + 20)
+  .attr("text-anchor", "start")
   .text(d => d.presidente);
 
-// 🔹 CLICK TOOLTIP
-svg.selectAll("rect")
-  .on("click", function(event, d) {
-    tooltip
-      .style("opacity", 1)
-      .html(`
-        <strong>${d.presidente}</strong><br>
-        ${d.duracion_texto}<br>
-        <em>${d.tipo_salida}</em><br><br>
-        ${d.descripcion}
-      `)
-      .style("left", (event.pageX + 10) + "px")
-      .style("top", (event.pageY - 20) + "px");
-  });
+// DURACIÓN (dentro de la barra)
+svg.selectAll(".duration-label")
+  .data(data)
+  .enter()
+  .append("text")
+  .attr("class", "duration-label")
+  .attr("x", 15)
+  .attr("y", (d, i) => i * barHeight + 50)
+  .attr("fill", d => 
+      d.presidente === "Manuel Merino" ? "#000" : "#fff"
+  )
+  .text(d => d.duracion_texto);
 
-d3.select("body").on("click", function(event) {
-  if (!event.target.closest("rect")) {
-    tooltip.style("opacity", 0);
-  }
-});
+// FECHAS (debajo de duración)
+svg.selectAll(".date-label")
+  .data(data)
+  .enter()
+  .append("text")
+  .attr("class", "date-label")
+  .attr("x", 15)
+  .attr("y", (d, i) => i * barHeight + 70)
+  .attr("fill", d => 
+      d.presidente === "Manuel Merino" ? "#000" : "#fff"
+  )
+  .attr("font-size", "11px")
+  .text(d => `${d.inicio} hasta ${d.fin}`);
+
+
+// TIPO DE SALIDA (debajo de duración)
+/*svg.selectAll(".type-label")
+  .data(data)
+  .enter()
+  .append("text")
+  .attr("class", "type-label")
+  .attr("x", 15)
+  .attr("y", (d, i) => i * barHeight + 65)
+  .text(d => `Salida: ${d.tipo_salida}`);
+  */
 
 </script>
 
