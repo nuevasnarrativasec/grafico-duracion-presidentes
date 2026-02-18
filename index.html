@@ -37,6 +37,14 @@ body {
   fill: #fff;
 }
 
+.duration-label,
+.date-label {
+  /*paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-width: 2px;*/
+}
+
+
 .chart-container h1{
     font-weight: 800;
     font-size: 1.5rem;
@@ -74,13 +82,23 @@ body {
 
     
 <div class="chart-container">
-    <h1>Duración de mandatos de los últimos presidentes de Perú</h1>
-    <h4>Siete presidentes peruanos en casi 10 años, sin contar con el sucesor de José Jerí, quien fue censurado tras apenas 130 días en el cargo. Así se convirtió en el segundo gobernante con el récord de ejercer menos tiempo,  solo después de Manuel Merino (5 días).</h4>
+    <h1>Duración de mandatos de los últimos presidentes del Perú</h1>
+    <h4>Ocho presidentes peruanos en casi 14 años, sin contar con el sucesor de José Jerí, quien fue censurado tras apenas 130 días en el cargo. Así se convirtió en el segundo gobernante con el récord de ejercer menos tiempo,  solo después de Manuel Merino (5 días).</h4>
 </div>
 
 <script>
 
 const data = [
+  {
+    presidente: "Ollanta Humala",
+    duracion_dias: 1827,
+    duracion_texto: "1 año y 236 días",
+    tipo_salida: "Renuncia",
+    color: "#5570b4",
+    foto_url: "https://lh3.googleusercontent.com/d/1gWwmrAnmeYktK6N75Q4EzFQZtweqTF-a",
+    inicio: "28/07/2011",
+    fin: "28/07/2016"
+  },
   {
     presidente: "Pedro Pablo Kuczynski",
     duracion_dias: 601,
@@ -113,7 +131,7 @@ const data = [
   },
   {
     presidente: "Francisco Sagasti",
-    duracion_dias: 360,
+    duracion_dias: 253,
     duracion_texto: "253 días",
     //tipo_salida: "Transición constitucional",
     color: "#909510",
@@ -143,7 +161,7 @@ const data = [
   },
   {
     presidente: "José Jeri",
-    duracion_dias: 360,
+    duracion_dias: 130,
     duracion_texto: "130 días",
     //tipo_salida: "Transición constitucional",
     color: "#F39C12",
@@ -222,7 +240,14 @@ svg.selectAll(".duration-label")
   .attr("fill", d => 
       d.presidente === "Manuel Merino" ? "#000" : "#fff"
   )
-  .text(d => d.duracion_texto);
+  .attr("stroke", d =>
+    d.presidente === "Manuel Merino" ? "#fff" : "#606060"
+  )
+  .attr("stroke-width", 3)
+  .attr("paint-order", "stroke")
+  .text(d => `${d.duracion_dias.toLocaleString()} días`);
+  
+
 
 // FECHAS (debajo de duración)
 svg.selectAll(".date-label")
@@ -236,6 +261,11 @@ svg.selectAll(".date-label")
       d.presidente === "Manuel Merino" ? "#000" : "#fff"
   )
   .attr("font-size", "11px")
+  .attr("stroke", d =>
+    d.presidente === "Manuel Merino" ? "#fff" : "#606060"
+  )
+  .attr("stroke-width", 3)
+  .attr("paint-order", "stroke")
   .text(d => `${d.inicio} hasta ${d.fin}`);
 
 
