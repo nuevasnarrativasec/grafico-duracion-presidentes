@@ -235,7 +235,7 @@ svg.selectAll(".duration-label")
   .enter()
   .append("text")
   .attr("class", "duration-label")
-  .attr("x", 15)
+  .attr("x", 10)
   .attr("y", (d, i) => i * barHeight + 50)
   .attr("fill", d => 
       d.presidente === "Manuel Merino" ? "#000" : "#fff"
@@ -255,7 +255,7 @@ svg.selectAll(".date-label")
   .enter()
   .append("text")
   .attr("class", "date-label")
-  .attr("x", 15)
+  .attr("x", 10)
   .attr("y", (d, i) => i * barHeight + 70)
   .attr("fill", d => 
       d.presidente === "Manuel Merino" ? "#000" : "#fff"
